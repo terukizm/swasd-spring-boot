@@ -1,0 +1,10 @@
+spring:
+  profiles: test
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/swasd_test
+    username: swasd
+    password: swasd
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: false

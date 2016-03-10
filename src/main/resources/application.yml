@@ -1,0 +1,17 @@
+server:
+  contextPath: /api/v1
+#  port: 8080
+
+spring:
+  profiles:
+    active: develop
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+logging:
+  file: logs/app.log
+  level:
+    ROOT: DEBUG
+
+swasd:
+  sample: test_with_override

@@ -1,0 +1,12 @@
+spring:
+  profiles: develop
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/swasd_dev
+    username: swasd
+    password: swasd
+    test-on-borrow: true
+    validation-query: SELECT 1
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
