@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,8 @@ import com.google.common.collect.Lists;
 
 import local.swasd.api.entity.Todo;
 import local.swasd.api.repository.db.TodoRepository;
+import local.swasd.api.request.TodoRequest;
+import local.swasd.api.response.TodoResponse;
 
 @Service
 public class TodoService {
@@ -23,14 +26,39 @@ public class TodoService {
 
 	private static final Logger logger = LoggerFactory.getLogger(TodoService.class);
 
-	public Todo get(long id) {
-		Todo result = todoRepository.findOne(id);
-		return result;
-	}
-
 	public List<Todo> list(Integer limit, Integer offset, Boolean doneOnly) {
 		Iterable<Todo> result = todoRepository.findAll();
 		return (List<Todo>) Lists.newArrayList(result);
+	}
+
+	public TodoResponse get(long id) {
+		Todo entity = todoRepository.findOne(id);
+
+		TodoResponse response = new TodoResponse();
+		BeanUtils.copyProperties(entity, response);
+
+		return response;
+	}
+
+	public void post(String title) {
+		// TODO: validate
+
+		Todo entity = new Todo();
+		entity.setTitle(title);
+		todoRepository.save(entity);
+	}
+
+	public void put(long id, TodoRequest input) {
+		// TODO: validate
+
+		Todo entity = new Todo();
+		entity.setId(id);
+		BeanUtils.copyProperties(input, entity);
+		todoRepository.save(entity);
+	}
+
+	public void delete(long id) {
+		todoRepository.delete(id);
 	}
 
 }
