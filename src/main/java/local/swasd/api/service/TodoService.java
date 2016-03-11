@@ -6,17 +6,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 
 import local.swasd.api.entity.Todo;
+import local.swasd.api.exception.InvalidParameterException;
 import local.swasd.api.repository.db.TodoRepository;
 import local.swasd.api.request.TodoRequest;
 import local.swasd.api.response.TodoResponse;
+import local.swasd.api.validator.TodoValidator;
 
 @Service
 public class TodoService {
+
+	private static final Logger logger = LoggerFactory.getLogger(TodoService.class);
 
 	// @Autowired
 	// TodoStubRepository todoRepository;
@@ -24,9 +29,15 @@ public class TodoService {
 	@Autowired
 	TodoRepository todoRepository;
 
-	private static final Logger logger = LoggerFactory.getLogger(TodoService.class);
+	@Autowired
+	TodoValidator todoValidator;
 
-	public List<Todo> list(Integer limit, Integer offset, Boolean doneOnly) {
+	public List<Todo> list(Integer limit, Integer offset, boolean doneOnly) {
+		if (limit != 0) {
+			Iterable<Todo> result = todoRepository.findAll(new PageRequest(offset, limit));
+			return (List<Todo>) Lists.newArrayList(result);
+		}
+
 		Iterable<Todo> result = todoRepository.findAll();
 		return (List<Todo>) Lists.newArrayList(result);
 	}
@@ -40,16 +51,16 @@ public class TodoService {
 		return response;
 	}
 
-	public void post(String title) {
-		// TODO: validate
+	public void post(String title) throws InvalidParameterException {
+		todoValidator.isExistsBadWord(title);
 
 		Todo entity = new Todo();
 		entity.setTitle(title);
 		todoRepository.save(entity);
 	}
 
-	public void put(long id, TodoRequest input) {
-		// TODO: validate
+	public void put(long id, TodoRequest input) throws InvalidParameterException {
+		todoValidator.isExistsBadWord(input.getTitle());
 
 		Todo entity = new Todo();
 		entity.setId(id);

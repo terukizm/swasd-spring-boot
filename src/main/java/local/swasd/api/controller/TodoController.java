@@ -19,12 +19,16 @@ import local.swasd.api.request.TodoRequest;
 import local.swasd.api.response.TodoResponse;
 import local.swasd.api.service.SampleService;
 import local.swasd.api.service.TodoService;
+import local.swasd.api.validator.CommonParameterValidator;
 
 @RestController
 @RequestMapping(value = "/todos")
 public class TodoController {
 
 	private static final Logger logger = LoggerFactory.getLogger(TodoService.class);
+
+	@Autowired
+	CommonParameterValidator commonParameterValidator;
 
 	@Autowired
 	TodoService todoService;
@@ -35,9 +39,13 @@ public class TodoController {
 	 * GET /todos (direct-use entity)
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Todo> list(@RequestParam(value = "limit", required = false) Integer limit,
-			@RequestParam(value = "offset", required = false) Integer offset,
-			@RequestParam(value = "done_only", required = false) Boolean doneOnly) throws Exception {
+	public List<Todo> list(@RequestParam(value = "limit", required = false, defaultValue = "0") Integer limit,
+			@RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset,
+			@RequestParam(value = "done_only", required = false, defaultValue = "false") Boolean doneOnly)
+			throws Exception {
+		// parameter check
+		commonParameterValidator.validateLimitAndOffset(limit, offset);
+
 		return todoService.list(limit, offset, doneOnly);
 	}
 
