@@ -1,8 +1,6 @@
 package local.swasd.api.controller;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import local.swasd.api.entity.Todo;
 import local.swasd.api.request.TodoRequest;
 import local.swasd.api.response.TodoResponse;
-import local.swasd.api.service.SampleService;
 import local.swasd.api.service.TodoService;
 import local.swasd.api.validator.CommonParameterValidator;
 
@@ -32,8 +29,6 @@ public class TodoController {
 
 	@Autowired
 	TodoService todoService;
-	@Autowired
-	SampleService sampleService;
 
 	/**
 	 * GET /todos (direct-use entity)
@@ -43,6 +38,7 @@ public class TodoController {
 			@RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset,
 			@RequestParam(value = "done_only", required = false, defaultValue = "false") Boolean doneOnly)
 			throws Exception {
+
 		// parameter check
 		commonParameterValidator.validateLimitAndOffset(limit, offset);
 
@@ -82,27 +78,5 @@ public class TodoController {
 	public String delete(@PathVariable long id) throws Exception {
 		todoService.delete(id);
 		return "ok";
-	}
-
-	// 動作確認用サンプル
-
-	/**
-	 * GET /todos/test
-	 */
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public Map<String, Object> test() {
-		int[] array = { 1, 2, 3 };
-		Map<String, Object> res = new LinkedHashMap<String, Object>();
-		res.put("msg", "success");
-		res.put("result", array);
-		return res;
-	}
-
-	/**
-	 * GET /todos/dbconnect
-	 */
-	@RequestMapping(value = "/dbconnect", method = RequestMethod.GET)
-	public String dbconnect() {
-		return sampleService.isConnectedDB() ? "OK!" : "NG...";
 	}
 }
