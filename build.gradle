@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'eclipse'
 apply plugin: 'war'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -36,8 +37,9 @@ dependencies {
     // Lombok
     providedCompile("org.projectlombok:lombok:1.16.6")
 
-    // JUnit
+    // unit test
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    // testCompile 'junit:junit:4.+'
 
     // mysql JDBC connector
     compile 'mysql:mysql-connector-java'
@@ -45,4 +47,18 @@ dependencies {
 
     // Libs
     compile 'com.google.guava:guava:19.0'
+}
+
+jacoco {
+    toolVersion = "0.7.+"
+}
+
+task jacoco(type: JacocoReport, dependsOn: 'test') {
+    sourceSets sourceSets.main
+    executionData = files(tasks.jacocoTestReport.executionData)
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = true
+    }
 }
