@@ -12,15 +12,11 @@ public class SampleService {
 
 	public boolean isConnectedDB() {
 		try {
-			if (sampleRepository.select1() == 1) {
-				return true;
-			}
+			return (sampleRepository.select1() == 1);
 		} catch (Exception e) {
 			// TODO: logging
-			return false;
+			throw e;
 		}
-
-		return false;
 	}
 
 }

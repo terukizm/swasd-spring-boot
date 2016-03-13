@@ -20,7 +20,6 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.0.BUILD-SNAPSHOT")
-        classpath 'org.springframework:springloaded:1.2.5.RELEASE'
     }
 }
 
@@ -33,13 +32,14 @@ repositories {
 dependencies {
     // Spring Boot
     compile("org.springframework.boot:spring-boot-starter-web")
+    // Hot Reload
+    compile("org.springframework.boot:spring-boot-devtools")
 
     // Lombok
     providedCompile("org.projectlombok:lombok:1.16.6")
 
     // unit test
     testCompile("org.springframework.boot:spring-boot-starter-test")
-    // testCompile 'junit:junit:4.+'
 
     // mysql JDBC connector
     compile 'mysql:mysql-connector-java'
@@ -48,6 +48,14 @@ dependencies {
     // Libs
     compile 'com.google.guava:guava:19.0'
 }
+
+bootRun {
+    addResources = true
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+')
+    }
+}
+
 
 jacoco {
     toolVersion = "0.7.+"
@@ -61,4 +69,8 @@ task jacoco(type: JacocoReport, dependsOn: 'test') {
         xml.enabled = true
         csv.enabled = true
     }
+}
+
+task production << {
+    bootRun.systemProperty 'spring.profiles.active', 'production'
 }

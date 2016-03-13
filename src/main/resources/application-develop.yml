@@ -10,3 +10,11 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
+  devtools:
+    restart:
+      enabled: true
+
+logging:
+  file: logs/app.log
+  level:
+    ROOT: DEBUG

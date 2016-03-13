@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ public class SampleController {
 	// 動作確認用サンプル
 
 	/**
-	 * GET /todos/test
+	 * GET /samples/test
 	 */
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public Map<String, Object> test() {
@@ -32,10 +33,20 @@ public class SampleController {
 	}
 
 	/**
-	 * GET /todos/dbconnect
+	 * GET /samples/dbconnect
 	 */
 	@RequestMapping(value = "/dbconnect", method = RequestMethod.GET)
 	public String dbconnect() {
-		return sampleService.isConnectedDB() ? "OK!" : "NG...";
+		sampleService.isConnectedDB();
+		return "OK!";
 	}
+
+	/**
+	 * GET /samples/exception/{status}
+	 */
+	@RequestMapping(value = "/exception/{status}", method = RequestMethod.GET)
+	public String exception(@PathVariable int status) throws Exception {
+		throw new Exception("hoge");
+	}
+
 }

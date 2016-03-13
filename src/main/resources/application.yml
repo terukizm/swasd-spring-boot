@@ -12,7 +12,7 @@ spring:
 logging:
   file: logs/app.log
   level:
-    ROOT: DEBUG
+    ROOT: INFO
 
 swasd:
   sample: test_with_override
