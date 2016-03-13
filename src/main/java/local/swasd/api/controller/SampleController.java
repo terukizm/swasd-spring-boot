@@ -13,7 +13,7 @@ import local.swasd.api.service.SampleService;
 
 @RestController
 @RequestMapping(value = "/samples")
-public class SampleController {
+public class SampleController extends AbstractController {
 
 	@Autowired
 	SampleService sampleService;

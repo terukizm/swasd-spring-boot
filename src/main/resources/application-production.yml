@@ -17,4 +17,4 @@ spring:
 logging:
   file: logs/app.log
   level:
-    ROOT: ERROR
+    root: ERROR

@@ -2,8 +2,6 @@ package local.swasd.api.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -20,11 +18,6 @@ import local.swasd.api.validator.TodoValidator;
 
 @Service
 public class TodoService {
-
-	private static final Logger logger = LoggerFactory.getLogger(TodoService.class);
-
-	// @Autowired
-	// TodoStubRepository todoRepository;
 
 	@Autowired
 	TodoRepository todoRepository;

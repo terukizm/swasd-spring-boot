@@ -13,8 +13,11 @@ spring:
   devtools:
     restart:
       enabled: true
+  output:
+    ansi:
+     enabled: always
 
 logging:
   file: logs/app.log
   level:
-    ROOT: DEBUG
+    root: DEBUG

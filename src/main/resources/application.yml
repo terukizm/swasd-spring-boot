@@ -12,7 +12,9 @@ spring:
 logging:
   file: logs/app.log
   level:
-    ROOT: INFO
+    root: INFO
 
 swasd:
   sample: test_with_override
+  api_version: 1.0.0
+  api_no_version_check: true

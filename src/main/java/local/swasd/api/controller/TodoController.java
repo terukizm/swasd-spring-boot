@@ -2,14 +2,14 @@ package local.swasd.api.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import local.swasd.api.entity.Todo;
@@ -20,9 +20,7 @@ import local.swasd.api.validator.CommonParameterValidator;
 
 @RestController
 @RequestMapping(value = "/todos")
-public class TodoController {
-
-	private static final Logger logger = LoggerFactory.getLogger(TodoService.class);
+public class TodoController extends AbstractController {
 
 	@Autowired
 	CommonParameterValidator commonParameterValidator;
@@ -42,7 +40,8 @@ public class TodoController {
 		// parameter check
 		commonParameterValidator.validateLimitAndOffset(limit, offset);
 
-		return todoService.list(limit, offset, doneOnly);
+		List<Todo> result = todoService.list(limit, offset, doneOnly);
+		return result;
 	}
 
 	/**
@@ -50,20 +49,22 @@ public class TodoController {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public TodoResponse get(@PathVariable long id) throws Exception {
-		return todoService.get(id);
+		TodoResponse result = todoService.get(id);
+		return result;
 	}
 
 	/**
-	 * POST /todos?title=xxxxx ('x-www-form-urlencoded' sample)
+	 * POST /todos?title=xxxxx (POST 'application/x-www-form-urlencoded' sample)
 	 */
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded")
+	@ResponseStatus(HttpStatus.CREATED)
 	public String post(@RequestParam(value = "title", required = true) String title) throws Exception {
 		todoService.post(title);
 		return "ok";
 	}
 
 	/**
-	 * PUT /todos/{id} ('application/json' and RequestBody input sample)
+	 * PUT /todos/{id} (PUT 'application/json' and RequestBody input sample)
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
 	public String put(@PathVariable long id, @RequestBody TodoRequest input) throws Exception {
@@ -75,6 +76,7 @@ public class TodoController {
 	 * DELETE /todos/{id}
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public String delete(@PathVariable long id) throws Exception {
 		todoService.delete(id);
 		return "ok";

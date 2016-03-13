@@ -14,4 +14,10 @@ public class SwasdConfiguration {
 	@NotNull
 	private String sample = "test";
 
+	@NotNull
+	private String apiVersion;
+
+	@NotNull
+	private boolean apiNoVersionCheck = true;
+
 }
