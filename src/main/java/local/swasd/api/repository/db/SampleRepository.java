@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class SampleDBRepository {
+public class SampleRepository {
 	@Autowired
 	NamedParameterJdbcTemplate jdbcTemplate;
 

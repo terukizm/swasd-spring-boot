@@ -32,6 +32,7 @@ public class TodoController extends AbstractController {
 	 * GET /todos (direct-use entity)
 	 */
 	@RequestMapping(method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
 	public List<Todo> list(@RequestParam(value = "limit", required = false, defaultValue = "0") Integer limit,
 			@RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset,
 			@RequestParam(value = "done_only", required = false, defaultValue = "false") Boolean doneOnly)
@@ -48,6 +49,7 @@ public class TodoController extends AbstractController {
 	 * GET /todos/{id}
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
 	public TodoResponse get(@PathVariable long id) throws Exception {
 		TodoResponse result = todoService.get(id);
 		return result;

@@ -13,6 +13,7 @@ import local.swasd.api.intercepter.LoggingIntercepter;
 
 @Configuration
 public class ApplicationConfig {
+
 	@Value("${spring.profiles}")
 	private String profile;
 

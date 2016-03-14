@@ -1,4 +1,4 @@
-SWASD
+swasd-spring-boot
 ===
 
 Simple Web Application or Service Development by Spring Boot
@@ -13,7 +13,7 @@ Simple Web Application or Service Development by Spring Boot
 
 - development support
   - [x] hot deploy
-  - [x] Unittest and Coverage(by Jacco) sample
+  - [x] Unittest and Coverage(by Jacoco) sample
 
 - TODO:
   - [ ] login / auth  (use Spring-Security?)
@@ -41,3 +41,13 @@ $ gradle build
 $ java -jar build/libs/xxxxx.jar
 ```
 
+# coverage
+
+```
+$ grade jacoco
+```
+
+@see
+* reports/
+* test-results/
+* jacoco/

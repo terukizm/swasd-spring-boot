@@ -3,12 +3,12 @@ package local.swasd.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import local.swasd.api.repository.db.SampleDBRepository;
+import local.swasd.api.repository.db.SampleRepository;
 
 @Service
 public class SampleService {
 	@Autowired
-	SampleDBRepository sampleRepository;
+	SampleRepository sampleRepository;
 
 	public boolean isConnectedDB() {
 		try {

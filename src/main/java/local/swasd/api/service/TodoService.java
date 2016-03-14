@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -14,6 +15,7 @@ import local.swasd.api.exception.InvalidParameterException;
 import local.swasd.api.repository.db.TodoRepository;
 import local.swasd.api.request.TodoRequest;
 import local.swasd.api.response.TodoResponse;
+import local.swasd.api.specification.TodoSpecifications;
 import local.swasd.api.validator.TodoValidator;
 
 @Service
@@ -26,12 +28,15 @@ public class TodoService {
 	TodoValidator todoValidator;
 
 	public List<Todo> list(Integer limit, Integer offset, boolean doneOnly) {
+		// where query
+		Specifications<Todo> spec = Specifications.where(TodoSpecifications.doneOnly(doneOnly));
+
 		if (limit != 0) {
-			Iterable<Todo> result = todoRepository.findAll(new PageRequest(offset, limit));
+			Iterable<Todo> result = todoRepository.findAll(spec, new PageRequest(offset, limit));
 			return (List<Todo>) Lists.newArrayList(result);
 		}
 
-		Iterable<Todo> result = todoRepository.findAll();
+		Iterable<Todo> result = todoRepository.findAll(spec);
 		return (List<Todo>) Lists.newArrayList(result);
 	}
 
