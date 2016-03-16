@@ -23,4 +23,8 @@ public class AbstractException extends Exception {
 		super(message);
 	}
 
+	public AbstractException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
 }

@@ -12,6 +12,7 @@ import com.google.common.collect.Lists;
 
 import local.swasd.api.entity.Todo;
 import local.swasd.api.exception.InvalidParameterException;
+import local.swasd.api.exception.NotFoundException;
 import local.swasd.api.repository.db.TodoRepository;
 import local.swasd.api.request.TodoRequest;
 import local.swasd.api.response.TodoResponse;
@@ -40,8 +41,13 @@ public class TodoService {
 		return (List<Todo>) Lists.newArrayList(result);
 	}
 
-	public TodoResponse get(long id) {
+	public TodoResponse get(long id) throws NotFoundException {
 		Todo entity = todoRepository.findOne(id);
+		if (entity == null) {
+			// TODO: use resource-file (ex. i18n)
+			String message = "id=" + id + " is not found.";
+			throw new NotFoundException(message);
+		}
 
 		TodoResponse response = new TodoResponse();
 		BeanUtils.copyProperties(entity, response);
@@ -57,7 +63,8 @@ public class TodoService {
 		todoRepository.save(entity);
 	}
 
-	public void put(long id, TodoRequest input) throws InvalidParameterException {
+	public void put(long id, TodoRequest input) throws InvalidParameterException, NotFoundException {
+		get(id);
 		todoValidator.isExistsBadWord(input.getTitle());
 
 		Todo entity = new Todo();
@@ -66,7 +73,8 @@ public class TodoService {
 		todoRepository.save(entity);
 	}
 
-	public void delete(long id) {
+	public void delete(long id) throws NotFoundException {
+		get(id);
 		todoRepository.delete(id);
 	}
 

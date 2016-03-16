@@ -3,16 +3,17 @@ package local.swasd.api.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class InvalidParameterException extends AbstractException {
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class NotFoundException extends AbstractException {
 
 	private static final long serialVersionUID = 1L;
 
-	public InvalidParameterException(String message) {
+	public NotFoundException(String message) {
 		super(message);
 	}
 
-	public InvalidParameterException(String message, Throwable cause) {
+	public NotFoundException(String message, Throwable cause) {
 		super(message, cause);
 	}
+
 }

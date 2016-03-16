@@ -42,9 +42,9 @@ public class SampleController extends AbstractController {
 	}
 
 	/**
-	 * GET /samples/exception/{status}
+	 * GET /samples/exception
 	 */
-	@RequestMapping(value = "/exception/{status}", method = RequestMethod.GET)
+	@RequestMapping(value = "/exception", method = RequestMethod.GET)
 	public String exception(@PathVariable int status) throws Exception {
 		throw new Exception("hoge");
 	}
